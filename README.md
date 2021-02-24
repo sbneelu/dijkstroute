@@ -2,7 +2,7 @@
 An implementation of Dijkstra's algorithm to find a route from the start point to the end point of a maze, or the shortest such route if multiple exist.
 
 ## Dijkstra's algorithm and required classes
-`dijkstra.py` contains the Dijkstra's algorithm function and the classes required for it (`Vertex`, `Edge`, `Graph`, `PriorityQueue`). These classes have some useful methods that aren't used in this project that may be useful for a different project (e.g. the `Graph.make_undirected()` method that turns a directed graph into an undirected one by reversing all edges). A test of this is in `dijkstra-test.py`.
+`dijkstra.py` contains the Dijkstra's algorithm function and the classes required for it (`Vertex`, `Edge`, `Graph`, `PriorityQueue`). These classes have some useful methods that aren't used in this project that may be useful for a different project (e.g. the `Graph.make_undirected()` method that turns a directed graph into an undirected one by reversing all edges, taking as an optional argument a lambda to modify weights of each edge when reversing). A test of this is in `dijkstra-test.py`.
 
 ## ASCII Maze route finder
 The ASCII Maze route finder uses Dijkstra's algorithm to find a route from the start to the end of an ASCII maze, and to find the shortest such route if multiple exist.

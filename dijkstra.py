@@ -19,7 +19,7 @@ class NoPathExistsError(Exception):
 
 class Vertex:
     def __init__(self, label, distance=math.inf, edges=None):
-        self.label = str(label)
+        self.label = label
         self.distance = distance
         self.vertex_from = None
         self.edges = [] if edges is None else edges
@@ -33,6 +33,10 @@ class Vertex:
     def __repr__(self):
         return f'Vertex({self.label}, {self.distance}, {self.edges})'
 
+    def __eq__(self, other):
+        return self.label == other.label and self.distance == other.distance\
+            and self.edges == other.edges
+
 
 class Edge:
     def __init__(self, vertex_from, vertex_to, weight):
@@ -43,27 +47,32 @@ class Edge:
     def __repr__(self):
         return f'Edge({self.vertex_from}, {self.vertex_to}, {self.weight})'
 
+    def __eq__(self, other):
+        return self.vertex_from == other.vertex_from\
+            and self.vertex_to == other.vertex_to\
+            and self.weight == other.weight
+
 
 class Path:
     def __init__(self, vertices=None):
-        self._vertices = [] if vertices is None else vertices
+        self.vertices = [] if vertices is None else vertices
 
     def prepend(self, item):
-        self._vertices.insert(0, item)
+        self.vertices.insert(0, item)
 
     def append(self, item):
-        self._vertices.append(item)
+        self.vertices.append(item)
 
     @property
     def distance(self):
-        return self._vertices[-1].distance
+        return self.vertices[-1].distance
 
     @property
     def path(self):
-        return [vertex.label for vertex in self._vertices]
+        return [vertex.label for vertex in self.vertices]
 
     def __repr__(self):
-        return f'Path({self._vertices})'
+        return f'Path({self.vertices})'
 
 
 class Graph:
@@ -79,15 +88,16 @@ class Graph:
         vertex_from = edge.vertex_from
         vertex_to = edge.vertex_to
         vertex_from.add(edge)
+        # Add relevant vertices if they aren't already in the graph
         if vertex_from not in self.vertices:
             self.add_vertex(vertex_from)
         if vertex_to not in self.vertices:
             self.add_vertex(vertex_to)
 
     def add(self, item):
-        if type(item) == Vertex:
+        if isinstance(item, Vertex):
             self.add_vertex(item)
-        elif type(item) == Edge:
+        elif isinstance(item, Edge):
             self.add_edge(item)
         else:
             raise InvalidGraphItemError(
@@ -102,6 +112,26 @@ class Graph:
 
     def __repr__(self):
         return str(self.vertices)
+
+    def has_vertex(self, label):
+        for vertex in self.vertices:
+            if label == vertex.label:
+                return True
+        return False
+
+    def get_vertex(self, label):
+        for vertex in self.vertices:
+            if label == vertex.label:
+                return vertex
+        return None
+
+    def get_edge(self, v1, v2):
+        e = None
+        for edge in v1.edges:
+            if edge.vertex_to == v2:
+                if e is None or edge.weight < e.weight:
+                    e = edge
+        return e
 
 
 class PriorityQueue:

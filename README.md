@@ -1,7 +1,7 @@
 # Dijkstroute
 
 ## Dijkstra's algorithm and required classes
-`dijkstra.py` contains the Dijkstra's algorithm function and the classes required for it (`Vertex`, `Edge`, and `Graph`).
+`dijkstra.py` contains the Dijkstra's algorithm function and the classes required for it.
 
 ## ASCII Maze solver
 The ASCII Maze solver uses Dijkstra's algorithm to find a path from the start to the end of an ASCII maze, and to find the shortest such path if multiple exist.
